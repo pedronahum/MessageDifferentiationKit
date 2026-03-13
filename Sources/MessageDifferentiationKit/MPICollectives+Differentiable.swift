@@ -368,23 +368,23 @@ public func differentiableAllgather(
 func _vjpAllgather(
     _ values: [Double],
     on communicator: MPICommunicator
-) -> (value: [Double], pullback: (Array<Double>.DifferentiableView) -> Array<Double>.DifferentiableView) {
+) -> (value: [Double], pullback: ([Double].DifferentiableView) -> [Double].DifferentiableView) {
     let output = differentiableAllgather(values, on: communicator)
     let rank = communicator.rank
     let localCount = values.count
 
-    func pullback(_ gradient: Array<Double>.DifferentiableView) -> Array<Double>.DifferentiableView {
+    func pullback(_ gradient: [Double].DifferentiableView) -> [Double].DifferentiableView {
         // Adjoint of concatenation (allgather) is slicing (scatter):
         // Each rank extracts its own slice from the full gradient
         let start = Int(rank) * localCount
         let end = start + localCount
 
         if gradient.base.isEmpty {
-            return Array<Double>.DifferentiableView([Double](repeating: 0.0, count: localCount))
+            return [Double].DifferentiableView([Double](repeating: 0.0, count: localCount))
         }
 
         let localGradient = Array(gradient.base[start..<end])
-        return Array<Double>.DifferentiableView(localGradient)
+        return [Double].DifferentiableView(localGradient)
     }
 
     return (output, pullback)

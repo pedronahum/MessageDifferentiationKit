@@ -411,7 +411,7 @@ import Testing
     await withTaskGroup(of: Void.self) { group in
         for i in 0..<10 {
             group.addTask {
-                let _ = cache.get(key: "test\(i)")
+                _ = cache.get(key: "test\(i)")
             }
         }
     }

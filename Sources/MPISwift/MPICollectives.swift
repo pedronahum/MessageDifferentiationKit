@@ -86,7 +86,7 @@ extension MPICommunicator {
         operation op: MPIOperation,
         root: Int32
     ) throws -> [T]? {
-        var result: [T]? = nil
+        var result: [T]?
         let isRoot = (rank == root)
 
         if isRoot {
@@ -229,7 +229,7 @@ extension MPICommunicator {
         root: Int32
     ) throws -> [T]? {
         let isRoot = (rank == root)
-        var result: [T]? = nil
+        var result: [T]?
 
         if isRoot {
             result = [T](repeating: data[0], count: data.count * Int(size))

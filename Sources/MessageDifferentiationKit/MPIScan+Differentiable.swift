@@ -56,10 +56,8 @@ public func differentiableScan(
         if i == rank {
             allValues[Int(i)] = value
             // Send to all others
-            for dest in 0..<size {
-                if dest != rank {
-                    try? communicator.send([value], to: dest, tag: 30000 + rank)
-                }
+            for dest in 0..<size where dest != rank {
+                try? communicator.send([value], to: dest, tag: 30000 + rank)
             }
         } else {
             // Receive from process i

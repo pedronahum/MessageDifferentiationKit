@@ -130,8 +130,7 @@ func trainStep(
 
 /// Generate training data for each process
 /// Each process gets different data to simulate distributed dataset
-func generateLocalData(rank: Int32, size: Int32, samplesPerProcess: Int) -> [(x: Double, y: Double)]
-{
+func generateLocalData(rank: Int32, size: Int32, samplesPerProcess: Int) -> [(x: Double, y: Double)] {
     // True function: y = 3.0 * x + 2.0 (with noise)
     let trueWeight = 3.0
     let trueBias = 2.0
@@ -145,9 +144,9 @@ func generateLocalData(rank: Int32, size: Int32, samplesPerProcess: Int) -> [(x:
     // This ensures all processes have similar data distributions
     for _ in 0..<samplesPerProcess {
         // Sample x uniformly from [0, 10]
-        let x = drand48() * 10.0 + Double(rank) * 0.1  // Small rank offset for variety
+        let x = Double.random(in: 0...10.0) + Double(rank) * 0.1  // Small rank offset for variety
         // Add small noise
-        let noise = (drand48() - 0.5) * 1.0
+        let noise = Double.random(in: -0.5...0.5) * 1.0
         let y = trueWeight * x + trueBias + noise
         data.append((x, y))
     }

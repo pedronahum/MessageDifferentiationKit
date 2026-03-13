@@ -1,0 +1,38 @@
+# SwiftLint configuration for MessageDifferentiationKit
+
+# Disable rules that conflict with MPI/AD coding conventions
+disabled_rules:
+  # MPI functions naturally have many parameters (sendbuf, recvbuf, count, datatype, op, root, comm)
+  - function_parameter_count
+  # Short variable names (x, y, i, w, b, op) are standard in math, ML, and AD code
+  - identifier_name
+  # Trailing commas are idiomatic Swift style in Package.swift and multi-line collections
+  - trailing_comma
+  # VJP functions and MPI wrappers can be long
+  - function_body_length
+  # Large files are acceptable for comprehensive test suites and examples
+  - file_length
+  # Doc comments before imports/pragmas are common in example files
+  - orphaned_doc_comment
+  # MPI uses force casts for C interop (MPI_Request, MPI_Status)
+  - force_cast
+  # Large tuples are needed for multi-return MPI operations
+  - large_tuple
+  # Cyclomatic complexity is high in MPI dispatch functions
+  - cyclomatic_complexity
+
+# Opt-in rules
+opt_in_rules:
+  - empty_count
+  - closure_spacing
+
+# Line length - allow slightly longer lines for MPI call sites
+line_length:
+  warning: 150
+  error: 200
+
+# Excluded paths
+excluded:
+  - .build
+  - Benchmarks
+  - Documentation
